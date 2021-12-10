@@ -3,7 +3,7 @@ class Spotify {
         this.accessToken = '';
         this.clientID = '12095f1f520446eca4dd8b7bf05d42d2';
         this.expirationTime = '';
-        this.redirectUri = 'http://localhost:3000'
+        this.redirectUri = 'http://jammmingwithiain.surge.sh'
 
         this.getAccessToken = this.getAccessToken.bind(this);
         this.search = this.search.bind(this);

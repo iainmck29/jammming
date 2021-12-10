@@ -57,6 +57,10 @@ class App extends React.Component {
   savePlaylist() {
     const trackURIs = this.state.playlistTracks.map(track => track.uri);
     spotify.savePlaylist(this.state.playlistName, trackURIs)
+    this.setState({
+      playlistTracks: []
+    })
+    alert('Playlist successfully created')
   }
 
   // Allow the user to search the Spotify library using their API and the search bar provided
