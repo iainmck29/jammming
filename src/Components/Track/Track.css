@@ -31,3 +31,30 @@
 .track-action:hover {
   opacity: 0.5;
 }
+
+.transparent-button {
+  background: transparent;
+  border: none;
+  align-items: flex-end;
+  cursor: pointer;
+}
+
+.button-container {
+  display: flex;
+  align-items: center;
+}
+
+.invert {
+  -webkit-filter: invert(100%);
+  -webkit-transition: -webkit-filter 0.25s;
+}
+
+.invert:hover {
+  -webkit-filter: invert(60%);
+}
+
+.play-action {
+  background: transparent;
+  width: 20px;
+  height: 20px;
+}

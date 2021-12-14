@@ -12,6 +12,7 @@ class App extends React.Component {
       playlistName: 'My Playlist',
       searchResults: [],
       playlistTracks: [],
+      trackPlaying: ''
     }
 
     this.addTrack = this.addTrack.bind(this);
@@ -19,6 +20,8 @@ class App extends React.Component {
     this.updatePlaylistName = this.updatePlaylistName.bind(this);
     this.savePlaylist = this.savePlaylist.bind(this);
     this.search = this.search.bind(this);
+    this.playSample = this.playSample.bind(this);
+    this.pauseSample = this.pauseSample.bind(this);
   }
 
   // Add a track to the current playlist if it doesnt already exist
@@ -71,6 +74,21 @@ class App extends React.Component {
     })
   }
 
+  // When button is clicked, play sample of track
+  async playSample(track) {
+    const trackPlaying = await spotify.playSample(track)
+    this.setState({
+      trackPlaying: track
+    })
+  }
+
+  async pauseSample() {
+    const pauseTrack = await spotify.pauseSample()
+    this.setState({
+      trackPlaying: ''
+    })
+  }
+
   render() {
     return (
       <div>
@@ -78,7 +96,14 @@ class App extends React.Component {
     <div className="App">
       <SearchBar onSearch={this.search}/>
       <div className="App-playlist">
-        <SearchResults searchResults={this.state.searchResults} onAdd={this.addTrack}/>
+        
+        <SearchResults 
+        searchResults={this.state.searchResults}
+        onAdd={this.addTrack}
+        isPlaying={this.state.trackPlaying}
+        playSample={this.playSample}
+        pauseSample={this.pauseSample}/>
+        
         <Playlist
           playlistName={this.state.playlistName}
           playlistTracks={this.state.playlistTracks}

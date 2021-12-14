@@ -13,7 +13,10 @@ export class TrackList extends React.Component {
                                 onAdd={this.props.onAdd}
                                 isRemoval={this.props.isRemoval}
                                 onRemove={this.props.onRemove}
-                                updatePlaylistName={this.props.updatePlaylistName}/>
+                                updatePlaylistName={this.props.updatePlaylistName}
+                                isPlaying={this.props.isPlaying}
+                                playSample={this.props.playSample}
+                                pauseSample={this.props.pauseSample}/>
                 })}
 
             </div>

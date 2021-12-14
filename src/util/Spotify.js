@@ -4,10 +4,14 @@ class Spotify {
         this.clientID = '12095f1f520446eca4dd8b7bf05d42d2';
         this.expirationTime = '';
         this.redirectUri = 'http://jammmingwithiain.surge.sh'
+        // this.redirectUri = 'http://localhost:3000'
 
         this.getAccessToken = this.getAccessToken.bind(this);
         this.search = this.search.bind(this);
         this.savePlaylist = this.savePlaylist.bind(this);
+        this.getDeviceID = this.getDeviceID.bind(this);
+        this.playSample = this.playSample.bind(this);
+        this.pauseSample = this.pauseSample.bind(this);
     }
 
     getAccessToken() {
@@ -24,7 +28,7 @@ class Spotify {
             url = 'https://accounts.spotify.com/authorize?'
             url += 'client_id=' + this.clientID
             url += '&response_type=token';
-            url += '&scope=playlist-modify-public playlist-modify-private'
+            url += '&scope=playlist-modify-public playlist-modify-private user-read-playback-state user-modify-playback-state'
             url += '&redirect_uri=' + this.redirectUri
             window.location = url
         }
@@ -86,7 +90,52 @@ class Spotify {
             })
         })
     }
-    
+
+    async getDeviceID() {
+        // Get device ID
+        const headers = {
+            Authorization: `Bearer ${this.accessToken}`
+        }
+        const devices = await fetch('https://api.spotify.com/v1/me/player/devices', {headers})
+        const devicesJSONResponse = await devices.json()
+        const deviceID = devicesJSONResponse['devices'][0].id
+        return deviceID
+    }
+
+    async playSample(track) {
+        const headers = {
+            Authorization: `Bearer ${this.accessToken}`
+        }
+
+        const deviceID = await this.getDeviceID()
+
+        // Get correct song
+        const playSong = await fetch(`https://api.spotify.com/v1/me/player/play?device_id=${deviceID}`, {
+            method: 'PUT',
+            headers,
+            body: JSON.stringify({
+                "uris": [track],
+              })
+        })
+
+        // Start playback
+    }
+
+    // Pause playback on song
+    async pauseSample(track) {
+        const headers = {
+            Authorization: `Bearer ${this.accessToken}`
+        }
+
+        // Get device ID
+        const deviceID = await this.getDeviceID()
+
+        // Pause song
+        const pauseSong = await fetch(`https://api.spotify.com/v1/me/player/pause?device_id=${deviceID}`, {
+            method: 'PUT',
+            headers
+        })
+    }
     
     }
 
